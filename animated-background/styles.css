@@ -24,6 +24,14 @@ body {
   animation: animate 5s linear forwards
 }
 
+.circle:nth-child(3n) {
+  background: #f00;
+  box-shadow: 0 0 10px #f00,
+  0 0 20px #f00,
+  0 0 30px #f00,
+  0 0 50px #f00;
+}
+
 @keyframes animate 
 {
   0%  {
@@ -48,4 +56,8 @@ body {
   height: 100vh;
   opacity: 0.5;
   background: linear-gradient( #0f0, transparent);
+}
+
+.circle:nth-child(3n)::before {
+    background: linear-gradient( #f00, transparent);
 }
