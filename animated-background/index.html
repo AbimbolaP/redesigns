@@ -7,25 +7,113 @@
   <title>Document</title>
 </head>
 <body>
+  <audio src="asset/Michael Bublé - It's Beginning To Look A Lot Like Christmas [Official HD Audio] (128 kbps).lite.mp3" id="bg-music" autoplay loop></audio>
+  <button id="music-btn">Play Music</button>
+  
   <script>
+
+
+    const colors = [
+  "#ff0000", // red
+  "#00ff00", // green
+  "#00ccff", // cyan
+  "#ff00ff", // magenta
+  "#ffff00", // yellow
+  "#ff8800", // orange
+  "#ffffff", // white spark
+  "#9b30ff", // purple
+  "#00ffbf"  // mint
+];
+
+    const audio = document.getElementById("bg-music");
+    const btn = document.getElementById("music-btn");
+    let fireworkInterval = null;
+
+    
+    function fadeIn(audio) {
+      audio.volume = 0;
+      audio.play();
+      let v = 0;
+
+      const fade = setInterval(() => {
+        if (v < 0.4) {      // max volume 40%
+          v += 0.02;
+          audio.volume = v;
+        } else {
+          clearInterval(fade);
+        }
+      }, 100);
+    }
+
+    btn.addEventListener("click", () => {
+      if (audio.paused) {
+        fadeIn(audio);
+        btn.textContent = "Pause Music";
+
+        if(!fireworkInterval) {
+          fireworkInterval = setInterval(lines, 200)
+        }
+
+      } else {
+        audio.pause();
+        btn.textContent = "Play Music";
+        clearInterval(fireworkInterval);
+          fireworkInterval = null;
+      }
+    });
+
+    function createExplosion(x, y, color) {
+      for (let i = 0; i < 100; i++){
+        let particle = document.createElement("div");
+        particle.classList.add("particle");
+        document.body.appendChild(particle);
+
+
+
+        let angle = Math.random() * 120 * Math.PI;
+        let speed = Math.random() * 180 + 2;
+        let color = colors[Math.floor(Math.random()*colors.length)];
+
+
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
+        particle.style.background = color;
+        particle.style.boxShadow = `0 0 10px ${color}`
+
+        particle.style.setProperty("--dx", Math.cos(angle) * speed + "px");
+        particle.style.setProperty("--dy", Math.sin(angle) * speed + "px");
+
+           particle.style.animation = "explode 0.9s ease-out forwards";
+
+      setTimeout(() => particle.remove(), 2000);
+      }
+    }
+
     function lines(){
-      let sizeW = Math.random() * 12;
-      let duration = Math.random() * 3;
+      let sizeW = Math.random() * 15;
+      let duration = Math.random() * 5;
       let e = document.createElement('div');
       e.setAttribute('class', 'circle');
       document.body.appendChild(e);
+       let color = Math.random() < 0.5 ? "#0f0" : "#f00";
+    e.style.boxShadow = `0 0 10px ${color}, 0 0 25px ${color}`;
+    e.style.background = color;
       e.style.width = 2+sizeW+'px';
       e.style.left = Math.random()* + innerWidth + 'px';
+
+
       e.style.animationDuration = 2 + duration + 's';
-      setTimeout(function(){
-      document.body.removeChild(e)
-    }, 5000);
+     setTimeout(() => {
+      let rect = e.getBoundingClientRect();
+      createExplosion(rect.left, rect.top, color);
+      e.remove();
+    }, duration * 1000 - 200);
     }
   
 
-    setInterval(function(){
-      lines();
-    }, 200);
+    // setInterval(function(){
+    //   lines();
+    // }, 200);
   </script>
 </body>
 </html>
