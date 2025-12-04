@@ -8,7 +8,7 @@
 </head>
 <body>
   <audio src="asset/Michael Bublé - It's Beginning To Look A Lot Like Christmas [Official HD Audio] (128 kbps).lite.mp3" id="bg-music" autoplay loop></audio>
-  <button id="music-btn">Play Music</button>
+  <button id="music-btn">Play</button>
   
   <script>
 
@@ -48,7 +48,7 @@
     btn.addEventListener("click", () => {
       if (audio.paused) {
         fadeIn(audio);
-        btn.textContent = "Pause Music";
+        btn.textContent = "Pause";
 
         if(!fireworkInterval) {
           fireworkInterval = setInterval(lines, 200)
@@ -56,7 +56,7 @@
 
       } else {
         audio.pause();
-        btn.textContent = "Play Music";
+        btn.textContent = "Play";
         clearInterval(fireworkInterval);
           fireworkInterval = null;
       }
